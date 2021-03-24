@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<initialize name="reset00">
+  <!--
+    This file sets up the cannonball to fire.
+  -->
+  <ubody unit="FT/SEC">  500.0  </ubody>
+  <vbody unit="FT/SEC">    500.0  </vbody>
+  <wbody unit="FT/SEC">    0.0  </wbody>
+  <latitude unit="DEG">    0.0  </latitude>
+  <longitude unit="DEG">  90.0  </longitude>
+  <phi unit="DEG">         0.0  </phi>
+  <theta unit="DEG">      40.0  </theta>
+  <psi unit="DEG">        40.0  </psi>
+  <altitude unit="FT"> 1000.0  </altitude>
+  <winddir unit="DEG">     0.0  </winddir>
+  <vwind unit="FT/SEC">    0.0  </vwind>
+
+
+  <velocity unit="FT/SEC" frame="BODY">
+    <!--x> 23869.978340 </x--> <!-- For use with standard grav model -->
+    <x> 100.145167 </x> <!-- For use with WGS84 grav model -->
+	<y> -100.145167 </y>
+  </velocity>
+</initialize>
+
