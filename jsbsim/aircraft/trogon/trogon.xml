@@ -22,6 +22,7 @@
   http://www.t3r.de/fg/ogel/
   
   $Revision$
+TEST
 -->
 <?xml-stylesheet type="text/xsl" href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
 <fdm_config name="ogel" version="2.0" release="PRODUCTION"
