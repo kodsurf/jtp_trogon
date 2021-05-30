@@ -22,6 +22,7 @@
   http://www.t3r.de/fg/ogel/
   
   $Revision$
+TEST
 -->
 <?xml-stylesheet type="text/xsl" href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
 <fdm_config name="ogel" version="2.0" release="PRODUCTION"
@@ -60,7 +61,6 @@
     K:             0.04
 
 -->
- <!--
 
  <metrics>
    <wingarea  unit="FT2">   85.71 </wingarea>
@@ -71,41 +71,6 @@
    <htailarm  unit="FT" >   12.79 </htailarm>
    <vtailarea unit="FT2">    8.57 </vtailarea>
    <vtailarm  unit="FT" >   12.30 </vtailarm>
-   <location name="AERORP" unit="IN">
-     <x> 141.70 </x>
-     <y>   0.00 </y>
-     <z>   0.00 </z>
-   </location>
-   <location name="EYEPOINT" unit="IN">
-     <x>  38.38 </x>
-     <y> 0 </y>
-     <z>  45.00 </z>
-   </location>
-   <location name="VRP" unit="IN">
-     <x>0</x>
-     <y>0</y>
-     <z>0</z>
-   </location>
- </metrics>
-
--->
-
-
- <metrics>
- <!-- OK-->
-   <wingarea  unit="M2">   0.8422 </wingarea>
-   <wingspan  unit="M" >   3.5 </wingspan>
-   <wing_incidence>          2.00 </wing_incidence><!-- NO OK -->
-   <chord     unit="M" >    0.35 </chord>
-   <!-- OK END-->
-   
-   
-   <htailarea unit="M2">   0.2 </htailarea> <!--2019 page 20 OK-->
-   <htailarm  unit="M" >   0.661 </htailarm> <!-- SELF MADE CATIA ANALYSIS BASED ON TrapezoidalWingGeometry_Gudmundsson.pdf  OK-->
-   <vtailarea unit="M2">    0.043 </vtailarea> <!-- CATIA OK-->
-   <vtailarm  unit="M" >   0.71513 </vtailarm> <!-- SELF MADE CATIA ANALYSIS OK -->
-   
-   
    <location name="AERORP" unit="IN">
      <x> 141.70 </x>
      <y>   0.00 </y>
@@ -138,76 +103,109 @@
    </location>
  </mass_balance>
 
+ <ground_reactions>
 
-
-<!--
- <mass_balance>
-   <ixx unit="KG*M2">       2.1844 </ixx>
-   <iyy unit="KG*M2">       6.13</iyy>
-   <izz unit="KG*M2">       7.7796 </izz>
-   <ixy unit="KG*M2">         -0.2171 </ixy>
-   <ixz unit="KG*M2">         -0.9559 </ixz>
-   <iyz unit="KG*M2">         -0.0379 </iyz>
-   
-   
-   <emptywt unit="KG" >       15.625 
-  
-   <location name="CG" unit="M">
-     <x> 0.563 </x>
-     <y>   0.00 </y>
-     <z>  0.27506 </z>
+  <contact type="BOGEY" name="LEFT_MAIN">
+   <location unit="IN">
+     <x> 128.94 </x>
+     <y> -34.77 </y>
+     <z> -59.04 </z>
    </location>
- </mass_balance>
+   <static_friction>  0.80 </static_friction>
+   <dynamic_friction> 0.50 </dynamic_friction>
+   <rolling_friction> 0.02 </rolling_friction>
+   <spring_coeff unit="LBS/FT">       1200.00 </spring_coeff>
+   <damping_coeff unit="LBS/FT/SEC">   240.00 </damping_coeff>
+   <max_steer unit="DEG">0</max_steer>
+   <brake_group>LEFT</brake_group>
+   <retractable>0</retractable>
+ </contact>
 
--->
+  <contact type="BOGEY" name="RIGHT_MAIN">
+   <location unit="IN">
+     <x> 128.94 </x>
+     <y>  34.77 </y>
+     <z> -59.04 </z>
+   </location>
+   <static_friction>  0.80 </static_friction>
+   <dynamic_friction> 0.50 </dynamic_friction>
+   <rolling_friction> 0.02 </rolling_friction>
+   <spring_coeff unit="LBS/FT">       1200.00 </spring_coeff>
+   <damping_coeff unit="LBS/FT/SEC">   240.00 </damping_coeff>
+   <max_steer unit="DEG">0</max_steer>
+   <brake_group>RIGHT</brake_group>
+   <retractable>0</retractable>
+ </contact>
 
-  <ground_reactions>
-        <contact type="BOGEY" name="CONTACT">
-            <location unit="IN">
-                <x> 0 </x>
-                <y> 0 </y>
-                <z> 0 </z>
-            </location>
-            <static_friction> 0 </static_friction>
-            <dynamic_friction> 0 </dynamic_friction>
-            <rolling_friction> 0 </rolling_friction>
-            <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
-            <damping_coeff unit="LBS/FT/SEC"> 200000 </damping_coeff>
-            <max_steer unit="DEG"> 0.0 </max_steer>
-            <brake_group> NONE </brake_group>
-            <retractable>0</retractable>
-        </contact>
-    </ground_reactions>
+  <contact type="BOGEY" name="TAIL">
+   <location unit="IN">
+     <x> 268.63 </x>
+     <y>   0.00 </y>
+     <z> -17.71 </z>
+   </location>
+   <static_friction>  0.80 </static_friction>
+   <dynamic_friction> 0.50 </dynamic_friction>
+   <rolling_friction> 0.02 </rolling_friction>
+   <spring_coeff unit="LBS/FT">       1200.00 </spring_coeff>
+   <damping_coeff unit="LBS/FT/SEC">   100.00 </damping_coeff>
+   <max_steer unit="DEG"> 5.00 </max_steer>
+   <brake_group>NONE</brake_group>
+   <retractable>0</retractable>
+ </contact>
+
+  <contact type="STRUCTURE" name="LEFT_WING">
+    <location unit="IN">
+     <x> 141.70 </x>
+     <y> -16.09 </y>
+     <z>  -7.38 </z>
+    </location>
+    <static_friction>  0.80 </static_friction>
+    <dynamic_friction> 0.50 </dynamic_friction>
+    <spring_coeff unit="LBS/FT">       1200.00 </spring_coeff>
+    <damping_coeff unit="LBS/FT/SEC">   100.00 </damping_coeff>
+ </contact>
+
+  <contact type="STRUCTURE" name="RIGHT_WING">
+    <location unit="IN">
+     <x> 141.70 </x>
+     <y>  16.09 </y>
+     <z>  -7.38 </z>
+    </location>
+    <static_friction>  0.80 </static_friction>
+    <dynamic_friction> 0.50 </dynamic_friction>
+    <spring_coeff unit="LBS/FT">       1200.00 </spring_coeff>
+    <damping_coeff unit="LBS/FT/SEC">   100.00 </damping_coeff>
+ </contact>
+
+  <contact type="STRUCTURE" name="NOSE">
+   <location unit="IN">
+     <x> -15.84 </x>
+     <y>   0.00 </y>
+     <z> -31.00 </z>
+   </location>
+   <static_friction>  0.80 </static_friction>
+   <dynamic_friction> 0.50 </dynamic_friction>
+   <spring_coeff unit="LBS/FT">       1200.00 </spring_coeff>
+   <damping_coeff unit="LBS/FT/SEC">   100.00 </damping_coeff>
+ </contact>
+
+  <contact type="BOGEY" name="HEAD">
+   <location unit="IN">
+     <x> 143.79 </x>
+     <y>   0.00 </y>
+     <z> 134.14 </z>
+   </location>
+   <static_friction>  0.80 </static_friction>
+   <dynamic_friction> 0.50 </dynamic_friction>
+   <spring_coeff unit="LBS/FT">       1200.00 </spring_coeff>
+   <damping_coeff unit="LBS/FT/SEC">   100.00 </damping_coeff>
+ </contact>
 
 
-<external_reactions>
-<property>thrust</property>
-
-<force name="thrust" frame="BODY">
-
-<function name="huj_thrust">
-
-<property>thrust</property>
-</function>
-<location unit="M">
-<x>1</x>
-<y>1</y>
-<z>1</z>
-</location>
-
-<direction>
-<x>1</x>
-<y>0</y>
-<z>0</z>
-</direction>
-</force>
-
-</external_reactions>
-
-<!--
+ </ground_reactions>
 
  <propulsion>
-
+<!--
    <engine file="200hp-jsbsim-2.0">
     <location unit="IN">
       <x>  36.00 </x>
@@ -235,12 +233,9 @@
   </engine>
 
 
+-->
 
-
-
-
-
- <engine file="200hp-jsbsim-2.0">
+ <engine file="trogon_electric">
     <location unit="IN">
       <x>  0.00 </x>
       <y>   0.00 </y>
@@ -269,59 +264,7 @@
 
 
 
-<engine file="200hp-jsbsim-2.0">
-    <location unit="IN">
-      <x>  -5.00 </x>
-      <y>   0.00 </y>
-      <z>   0.00 </z>
-    </location>
-    <orient unit="DEG">
-      <pitch> 0.00 </pitch>
-      <roll>   0.00 </roll>
-      <yaw>   0.00 </yaw>
-    </orient>
-    <feed>0</feed>
-    <thruster file="8ftfixed-jsbsim-2.0">
-     <location unit="IN">
-       <x>  36.00 </x>
-       <y>   0.00 </y>
-       <z>   0.00 </z>
-     </location>
-     <orient unit="DEG">
-       <pitch> 0.00 </pitch>
-       <roll>   0.00 </roll>
-       <yaw>   0.00 </yaw>
-     </orient>
-    </thruster>
-  </engine>
 
-
-
-<engine file="200hp-jsbsim-2.0">
-    <location unit="IN">
-      <x>  -52.00 </x>
-      <y>   0.00 </y>
-      <z>   0.00 </z>
-    </location>
-    <orient unit="DEG">
-      <pitch> 0.00 </pitch>
-      <roll>   0.00 </roll>
-      <yaw>   0.00 </yaw>
-    </orient>
-    <feed>0</feed>
-    <thruster file="8ftfixed-jsbsim-2.0">
-     <location unit="IN">
-       <x>  36.00 </x>
-       <y>   0.00 </y>
-       <z>   0.00 </z>
-     </location>
-     <orient unit="DEG">
-       <pitch> 0.00 </pitch>
-       <roll>   0.00 </roll>
-       <yaw>   0.00 </yaw>
-     </orient>
-    </thruster>
-  </engine>
 
   <tank type="FUEL" number="0">
      <location unit="IN">
@@ -344,11 +287,6 @@
   </tank>
 
  </propulsion>
-
--->
-
-
-
 
  <flight_control name="FCS: ogel">
 

@@ -1,0 +1,4 @@
+<?xml version="1.0"?> 
+<electric_engine name="trogon_electric">
+ <power unit="WATTS"> 5000 </power>
+</electric_engine>

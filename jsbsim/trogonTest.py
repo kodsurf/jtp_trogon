@@ -14,9 +14,9 @@ fdm = jsbsim.FGFDMExec('.', None)
 #fdm.load_script('scripts/737_cruise.xml', delta_t=0.1,initfile='cruise_init.xml')
 #fdm.load_script('scripts/737_custom.xml', delta_t=0.1,initfile='custom.xml')
 
-#fdm.load_model("737")
+fdm.load_model("ogel")
 #fdm.load_model("c172p")
-fdm.load_model("trogon")
+#fdm.load_model("trogon")
 
 
 
@@ -59,14 +59,15 @@ fdm.set_property_value("ic/v-fps",0)
 fdm.set_property_value("ic/w-fps",0) 
 
 
-fdm.set_property_value("ic/gamma-rad",0) 
-fdm.set_property_value("ic/phi-deg",0) 
-fdm.set_property_value("ic/theta-deg",6.47) 
-fdm.set_property_value("ic/psi-true-deg",200)
+#fdm.set_property_value("ic/gamma-rad",0) 
+#fdm.set_property_value("ic/phi-deg",0) 
+#fdm.set_property_value("ic/theta-deg",6.47) 
+#fdm.set_property_value("ic/psi-true-deg",200)
 fdm.set_property_value("ic/h-sl-ft",10000.0) 
 
 fdm.set_property_value("ic/lat-geod-deg",47.8303295)
 fdm.set_property_value("ic/long-gc-deg",16.2562515)
+fdm.set_property_value("PIZDA",777.0)
 
 
 fdm.run_ic()
@@ -84,13 +85,14 @@ fdm.set_property_value("position/lon-gc-deg",16.2562515) # set altitude to 5000m
 # TURN ON 737 engines
 #fdm.set_property_value("propulsion/engine[0]/set-running",1) 
 #fdm.set_property_value("propulsion/engine[1]/set-running",1)
-fdm.set_property_value("propulsion/engine/set-running",0) 
+#fdm.set_property_value("propulsion/engine/set-running",0) 
 
 #TRIM
 #fdm.set_property_value("simulation/do_simple_trim",1)
 
 
 fdm.set_property_value("simulation/write-state-file",0)
+fdm.set_property_value("thrust",50) # external force DIRECTION 0 0 1
 
 flag = True
 while fdm.run() and fdm.get_sim_time()<20:
@@ -133,9 +135,13 @@ while fdm.run() and fdm.get_sim_time()<20:
 
 	print "LAT LON ALT = "+str(curr_lat_lon_alt)
 
-	fdm.set_property_value("propulsion/engine/power-hp",1000)
+	#fdm.set_property_value("propulsion/engine/power-hp",1000)
 	engine_power = fdm.get_property_value("propulsion/engine/power-hp")
 	print "ENGINE POWER = "+str(engine_power)
+
+	#fdm.set_property_value("thrust",77777)
+	thrust = fdm.get_property_value("thrust")
+	print "thrust = "+str(thrust)
 
 
 
