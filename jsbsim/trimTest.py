@@ -12,14 +12,15 @@ alt0 = 0
 plot_delta = 0.5 # PLOT EVERY seconds
 
 fdm = jsbsim.FGFDMExec('.', None)
-#fdm.load_script('scripts/737_cruise.xml', delta_t=0.1,initfile='cruise_init.xml')
+fdm.load_script('scripts/737_cruise.xml', delta_t=0.1,initfile='cruise_init.xml') # THIS ONE WORKS 
 #fdm.load_script('scripts/737_custom.xml', delta_t=0.1,initfile='custom.xml')
 #fdm.load_script('scripts/c172_cruise_8K.xml', delta_t=0.1,initfile='reset00.xml')
 
-fdm.load_model("ogel")
+#fdm.load_model("ogel")
 #fdm.load_model("c172p")
 #fdm.load_model("trogon")
 #fdm.load_model("c172x")
+#fdm.load_model("737")
 
 
 
@@ -39,7 +40,7 @@ pose_cartesian = np.array([[],[],[]])
 
 # INITIAL CONDITIONS
 
-fdm.set_property_value("ic/vc-kts",130) #Calibrated airspeed initial condition in knots
+#fdm.set_property_value("ic/vc-kts",130) #Calibrated airspeed initial condition in knots
 
 #fdm.set_property_value("ic/v-fps",130) 
 #fdm.set_property_value("ic/v-fps",0) 
@@ -50,7 +51,7 @@ fdm.set_property_value("ic/vc-kts",130) #Calibrated airspeed initial condition i
 #fdm.set_property_value("ic/phi-deg",0) 
 #fdm.set_property_value("ic/theta-deg",6.47) 
 #fdm.set_property_value("ic/psi-true-deg",200)
-fdm.set_property_value("ic/h-sl-ft",10000.0) 
+#fdm.set_property_value("ic/h-sl-ft",10000.0) 
 
 #fdm.set_property_value("ic/lat-geod-deg",47.8303295)
 #fdm.set_property_value("ic/long-gc-deg",16.2562515)
@@ -86,20 +87,31 @@ elevator_cmd=0 # initialize elevator in neutral position
 throttle_cmd = 0
 aileron_cmd = 0
 rudder_cmd = 0
+trim_status = "no trim"
 while fdm.run() and fdm.get_sim_time()<5000:
 
 
 	current_time = fdm.get_sim_time()
 	#time = np.append(time,current_time)
 
-	if current_time > 5 and flag:
+	if keyboard.is_pressed('x'):  # if X is pressed - start Trim
 
-		fdm.set_property_value("fcs/roll-trim-cmd-norm",0)# roll trim
-		fdm.set_property_value("fcs/pitch-trim-cmd-norm",0)# roll trim
-		fdm.set_property_value("fcs/yaw-trim-cmd-norm",0)# roll trim
+		fdm.set_property_value("fcs/roll-trim-cmd-norm",0.0)# roll trim
+		fdm.set_property_value("fcs/pitch-trim-cmd-norm",0.0)# roll trim
+		fdm.set_property_value("fcs/yaw-trim-cmd-norm",0.0)# roll trim
 
 		fdm.set_property_value("simulation/do_simple_trim",1)
+		trim_status = "TRIM OK"
 		flag = False
+
+	if keyboard.is_pressed('v'):
+		#STOP TRIM IF V IS PRESSED
+		fdm.set_property_value("simulation/do_simple_trim",1)
+		print "TRIM STOPPED"
+		trim_status = "NO TRIM"
+
+
+
 	
 	print "current time="+str(current_time)
 
@@ -288,6 +300,8 @@ while fdm.run() and fdm.get_sim_time()<5000:
 
 	rudder_text = "RUDDER------  LEFT "+ str(round(rudder,2))
 	plt.text(0.1, 0.60, rudder_text)
+
+	plt.text(0.5,0.5,trim_status)
 
 
 
