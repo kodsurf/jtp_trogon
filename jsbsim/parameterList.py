@@ -18,7 +18,8 @@ atmosphere = jsbsim.FGAtmosphere()
 #fdm.load_script('scripts/737_custom.xml', delta_t=0.1,initfile='cruise_init.xml')
 
 #fdm.load_model("trogon")
-fdm.load_model("c172p")
+#fdm.load_model("c172p")
+fdm.load_model("ogel")
 
 fdm.set_output_filename(0,"testOut.csv")
 fdm.enable_output()

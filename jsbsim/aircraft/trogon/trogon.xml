@@ -663,6 +663,59 @@
   </axis>
 
  </aerodynamics>
+<input port="4444">
+<!-- telnet localhost 4444 -->
+</input>
+
+<output name="localhost" type="SOCKET" port="5138" protocol="UDP" rate="10">
+   
+  <property> velocities/vc-kts </property>
+  <property> position/h-sl-ft </property>
+  <property> attitude/theta-deg </property>
+  <property> attitude/phi-deg </property>
+  <property> velocities/h-dot-fps </property>
+  <property> velocities/mach </property>
+  <property> aero/beta-deg </property>
+  <property> attitude/psi-deg </property>
+  <property> aero/alpha-deg </property>
+  <property> velocities/p-rad_sec </property>
+
+  <property> velocities/q-rad_sec </property>
+  <property> velocities/r-rad_sec </property>
+  <property> velocities/vtrue-kts </property>
+  <property> velocities/vg-fps </property>
+  <property> velocities/v-north-fps </property>
+  <property> velocities/v-east-fps </property>
+  <property> velocities/v-down-fps </property>
+  <property> velocities/u-fps </property>
+  <property> velocities/v-fps </property>
+  <property> velocities/w-fps </property>
+
+  <property> position/h-agl-ft </property>
+  <property> position/lat-gc-deg </property>
+  <property> position/long-gc-deg </property>
+  <property> position/lat-geod-deg </property>
+  <property> propulsion/engine[0]/thrust-lbs </property>
+  <property> propulsion/engine[1]/thrust-lbs </property>
+  <property> propulsion/engine[0]/n1 </property>
+  <property> propulsion/engine[1]/n1 </property>
+  <property> propulsion/engine[0]/n2 </property>
+  <property> propulsion/engine[1]/n2 </property>
+
+  <property> propulsion/engine[0]/fuel-flow-rate-pps </property>
+  <property> propulsion/engine[1]/fuel-flow-rate-pps </property>
+  <property> propulsion/total-fuel-lbs </property>
+  <property> inertia/weight-lbs </property>
+  <property> inertia/empty-weight-lbs </property>
+  <property> gear/gear-pos-norm </property>
+  <property> fcs/flap-pos-norm </property>
+  <property> fcs/speedbrake-pos-norm </property>
+  <property> fcs/right-aileron-pos-norm </property>
+  <property> fcs/elevator-pos-norm </property>
+  
+  <property> fcs/rudder-pos-norm </property>
+  
+ </output>
 
 </fdm_config>
 

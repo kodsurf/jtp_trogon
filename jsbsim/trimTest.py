@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import keyboard  # using module keyboard
 from funcinclude import *
+import math
 
 
 # ECEF reference point
@@ -12,11 +13,11 @@ alt0 = 0
 plot_delta = 0.5 # PLOT EVERY seconds
 
 fdm = jsbsim.FGFDMExec('.', None)
-fdm.load_script('scripts/737_cruise.xml', delta_t=0.1,initfile='cruise_init.xml') # THIS ONE WORKS 
+#fdm.load_script('scripts/737_cruise.xml', delta_t=0.1,initfile='cruise_init.xml') # THIS ONE WORKS 
 #fdm.load_script('scripts/737_custom.xml', delta_t=0.1,initfile='custom.xml')
 #fdm.load_script('scripts/c172_cruise_8K.xml', delta_t=0.1,initfile='reset00.xml')
 
-#fdm.load_model("ogel")
+fdm.load_model("ogel")
 #fdm.load_model("c172p")
 #fdm.load_model("trogon")
 #fdm.load_model("c172x")
@@ -56,6 +57,23 @@ pose_cartesian = np.array([[],[],[]])
 #fdm.set_property_value("ic/lat-geod-deg",47.8303295)
 #fdm.set_property_value("ic/long-gc-deg",16.2562515)
 #fdm.set_property_value("PIZDA",777.0)
+
+
+# INITIAL CONDITIONS AS IN  cruise_init.xml for 737
+
+fdm.set_property_value("ic/h-sl-ft",30000.0)
+#fdm.set_property_value("ic/vt-fps",750.0)
+fdm.set_property_value("ic/lat-gc-deg",47.8303295)
+#fdm.set_property_value("ic/lon-geod-deg",16.2562515)
+fdm.set_property_value("ic/long-gc-deg",16.2562515)
+fdm.set_property_value("ic/gamma-deg",0) 
+fdm.set_property_value("ic/phi-deg",0)
+fdm.set_property_value("ic/beta-deg",0)
+fdm.set_property_value("ic/psi-deg",225)
+
+fdm.set_property_value("ic/vc-kts",20)
+
+
 
 
 fdm.run_ic()
@@ -100,13 +118,16 @@ while fdm.run() and fdm.get_sim_time()<5000:
 		fdm.set_property_value("fcs/pitch-trim-cmd-norm",0.0)# roll trim
 		fdm.set_property_value("fcs/yaw-trim-cmd-norm",0.0)# roll trim
 
-		fdm.set_property_value("simulation/do_simple_trim",1)
+		try:
+			fdm.set_property_value("simulation/do_simple_trim",1)
+		except:
+			print "TRIM NO OK FAIL"
 		trim_status = "TRIM OK"
 		flag = False
 
 	if keyboard.is_pressed('v'):
 		#STOP TRIM IF V IS PRESSED
-		fdm.set_property_value("simulation/do_simple_trim",1)
+		fdm.set_property_value("simulation/do_simple_trim",0)
 		print "TRIM STOPPED"
 		trim_status = "NO TRIM"
 
@@ -128,8 +149,10 @@ while fdm.run() and fdm.get_sim_time()<5000:
 	print "test = "+str(test)
 
 	lat = fdm.get_property_value("position/lat-gc-deg")
-	lon = fdm.get_property_value("position/lon-gc-deg")
+	lon = fdm.get_property_value("position/long-gc-deg")
 	alt = fdm.get_property_value("position/h-sl-meters")
+
+	print "RECEIVED LAT LON "+str(lat)+" "+str(lon)
 
 	x,y,z = geodetic_to_enu(lat,lon,alt,lat0,lon0,alt0)
 	current_pose_cartesian= np.array([[x],[y],[z]])
@@ -164,6 +187,17 @@ while fdm.run() and fdm.get_sim_time()<5000:
 
 	rudder = fdm.get_property_value("fcs/rudder-pos-deg")
 	print "RUDDER "+str(rudder)
+
+	### ATITUDE
+	roll = fdm.get_property_value("attitude/roll-rad")
+	pitch = fdm.get_property_value("attitude/pitch-rad")
+	yaw = fdm.get_property_value("attitude/heading-true-rad")
+
+	roll = roll*360/(2*math.pi)
+	pitch = pitch*360/(2*math.pi)
+	yaw = yaw*360/(2*math.pi)
+
+	print "ATTITUDE ROLL "+str(roll)+" PITCH "+str(pitch)+" YAW "+str(yaw)
 
 
 
@@ -249,6 +283,10 @@ while fdm.run() and fdm.get_sim_time()<5000:
 		fdm.set_property_value("fcs/aileron-cmd-norm",0)
 		fdm.set_property_value("fcs/rudder-cmd-norm",0)
 
+	if keyboard.is_pressed('b'):
+		fdm.run_ic() # IF B PRESSED - RESET SIMULATION TO INITIAL CONDITIONS
+
+
 
 
 
@@ -302,6 +340,9 @@ while fdm.run() and fdm.get_sim_time()<5000:
 	plt.text(0.1, 0.60, rudder_text)
 
 	plt.text(0.5,0.5,trim_status)
+
+	attitude_text = "ATTITUDE ROLL "+str(round(roll))+" PITCH "+str(round(pitch))+" YAW "+str(round(yaw))
+	plt.text(0.3,0.7,attitude_text)
 
 
 
