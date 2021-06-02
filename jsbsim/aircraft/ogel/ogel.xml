@@ -825,7 +825,12 @@
 <property> velocities/ve-kts </property>  
 <property> attitude/roll-rad </property>
 <property> attitude/pitch-rad </property>
-<property> attitude/heading-true-rad </property> 
+<property> attitude/heading-true-rad </property>
+
+<property> fcs/left-aileron-pos-deg </property> 
+<property> fcs/right-aileron-pos-deg </property> 
+<property> fcs/elevator-pos-deg </property> 
+<property> fcs/rudder-pos-deg </property> 
 
 
 
