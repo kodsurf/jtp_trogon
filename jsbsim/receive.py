@@ -10,6 +10,11 @@ import sys
 UDP_IP = "127.0.0.1"
 UDP_PORT = 5138
 
+# ECEF reference point
+lat0 = 47.8303295
+lon0 = 16.2562515
+alt0 = 0
+
 sock = socket.socket(socket.AF_INET, # Internet
                      socket.SOCK_DGRAM) # UDP
 sock.bind((UDP_IP, UDP_PORT))
@@ -87,6 +92,8 @@ while True:
     	right_aileron = result[9]
     	elevator = result[10]
     	rudder = result[11]
+
+    	x,y,z = geodetic_to_enu(lat,lon,alt,lat0,lon0,alt0)
     	print "time ="+str(time)+" lat="+str(lat)+" lon="+str(lon)+" alt="+str(alt)+" vel="+str(vel)
     	print "roll="+str(roll_rad)+" pitch="+str(pitch_rad)+" heading="+str(heading_rad)
 
@@ -94,6 +101,25 @@ while True:
     	print "aileron LEFT "+str(left_aileron)+ " RIGHT "+str(right_aileron)
     	print "elevator "+str(elevator)
     	print "rudder "+str(rudder)
+
+
+    	plt.figure(1)
+    	plt.scatter(time,vel)
+    	plt.xlabel('time (s)')
+    	plt.ylabel('velocity (knots)')
+    	#plt.pause(0.001)# plot every 0.5
+
+    	plt.figure(2)
+    	plt.scatter(time,alt)
+    	plt.xlabel('time (s)')
+    	plt.ylabel('alt (m)')
+    	#plt.pause(0.001)# plot every 0.5
+
+    	plt.figure(3)
+    	plt.scatter(x,y)
+    	plt.xlabel('X (m)')
+    	plt.ylabel('Y (m)')
+    	plt.pause(0.001)# plot every 0.5
     except:
     	print "ERROR"
 
