@@ -61,7 +61,7 @@ pose_cartesian = np.array([[],[],[]])
 
 # INITIAL CONDITIONS AS IN  cruise_init.xml for 737
 
-fdm.set_property_value("ic/h-sl-ft",30000.0)
+fdm.set_property_value("ic/h-sl-ft",3000.0)
 #fdm.set_property_value("ic/vt-fps",750.0)
 fdm.set_property_value("ic/lat-gc-deg",47.8303295)
 #fdm.set_property_value("ic/lon-geod-deg",16.2562515)
@@ -71,7 +71,7 @@ fdm.set_property_value("ic/phi-deg",0)
 fdm.set_property_value("ic/beta-deg",0)
 fdm.set_property_value("ic/psi-deg",225)
 
-fdm.set_property_value("ic/vc-kts",20)
+fdm.set_property_value("ic/vc-kts",30)
 
 
 
@@ -205,6 +205,9 @@ while fdm.run() and fdm.get_sim_time()<5000:
 	engine_thrust = fdm.get_property_value("propulsion/engine/thrust-lbs")
 	print "Engine thrust "+ str(engine_power)+ " lbs"
 
+	alpha = fdm.get_property_value("aero/alpha-deg")
+	print "ANGLE OF ATTACK = "+str(alpha)+" DEG"
+
 
 
 	# ELEVATOR   --------------------------------
@@ -310,6 +313,8 @@ while fdm.run() and fdm.get_sim_time()<5000:
 	#plt.scatter(current_time,v)
 	plt.xlabel('time (s)')
 	plt.ylabel('velocity (knots)')
+	if current_time > 80:
+		plt.savefig('vel_time.png')
 
 	plt.figure(2)
 	if (current_time%plot_delta)<0.1:
@@ -317,6 +322,8 @@ while fdm.run() and fdm.get_sim_time()<5000:
 	plt.xlabel('time (s)')
 	plt.ylabel('altitude (m)')
 	#plt.pause(0.05)
+	if current_time > 80:
+		plt.savefig('alt_time.png')
 
 	plt.figure(3)
 	if (current_time%plot_delta)<0.1:
@@ -325,8 +332,38 @@ while fdm.run() and fdm.get_sim_time()<5000:
 	plt.ylabel('y')
 	#plt.pause(0.05)
 
+	plt.figure(4)
+	if (current_time%plot_delta)<0.1:
+		plt.scatter(current_time,alpha)
+	plt.xlabel('Time [S]')
+	plt.ylabel('Angle of attack [DEG]')
+	#plt.pause(0.05)
+	if current_time > 80:
+		plt.savefig('alpha_time.png')
+
+	plt.figure(5)
+	if (current_time%plot_delta)<0.1:
+		plt.scatter(current_time,pitch)
+	plt.xlabel('Time [S]')
+	plt.ylabel('Pitch [DEG]')
+	#plt.pause(0.05)
+	if current_time > 80:
+		plt.savefig('pitch_time.png')
+
+	plt.figure(6)
+	if (current_time%plot_delta)<0.1:
+		plt.scatter(current_time,elevator_deg)
+	plt.xlabel('Time [S]')
+	plt.ylabel('Elevator [DEG]')
+	#plt.pause(0.05)
+	if current_time > 80:
+		plt.savefig('elevator_time.png')
+		break
+
+
+
 	#fdm.set_property_value("simulation/write-state-file",0)
-	STATUS_PLOTS = plt.figure(4).clf()
+	STATUS_PLOTS = plt.figure(7).clf()
 	x = [1, 2, 4]
 	#plt.plot(x)
 	plt.text(1, 1, '*',)
