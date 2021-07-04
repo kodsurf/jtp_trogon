@@ -92,7 +92,9 @@ while True:
     	right_aileron = result[9]
     	elevator = result[10]
     	rudder = result[11]
-    	alpha = result[12]
+    	alpha = result[13]
+
+    	pitch_deg = pitch_rad*360/3.14
 
     	x,y,z = geodetic_to_enu(lat,lon,alt,lat0,lon0,alt0)
     	print "time ="+str(time)+" lat="+str(lat)+" lon="+str(lon)+" alt="+str(alt)+" vel="+str(vel)
@@ -110,7 +112,7 @@ while True:
     	plt.xlabel('time (s)')
     	plt.ylabel('velocity (knots)')
     	#plt.pause(0.001)# plot every 0.5
-    	if time > 60:
+    	if time > 120:
     		plt.savefig('vel_time.png')
 
     	plt.figure(2)
@@ -118,14 +120,14 @@ while True:
     	plt.xlabel('time (s)')
     	plt.ylabel('alt (m)')
     	#plt.pause(0.001)# plot every 0.5
-    	if time > 60:
+    	if time > 120:
     		plt.savefig('alt_time.png')
 
     	plt.figure(3)
     	plt.scatter(time,alpha)
     	plt.xlabel('Time [S]')
     	plt.ylabel('Angle of attack [DEG]')
-    	if time > 60:
+    	if time > 120:
     		plt.savefig('alpha_time.png')
 
 
@@ -133,21 +135,21 @@ while True:
     	plt.scatter(x,y)
     	plt.xlabel('X (m)')
     	plt.ylabel('Y (m)')
-    	if time > 60:
+    	if time > 120:
     		plt.savefig('xy.png')
 
     	plt.figure(5)
-    	plt.scatter(time,pitch_rad)
+    	plt.scatter(time,pitch_deg)
     	plt.xlabel('Time [S]')
     	plt.ylabel('Pitch [DEG]')
-    	if time > 60:
+    	if time > 120:
     		plt.savefig('pitch_time.png')
 
     	plt.figure(6)
     	plt.scatter(time,elevator)
     	plt.xlabel('time [S]')
     	plt.ylabel('Elevator Position [DEG]')
-    	if time > 60:
+    	if time > 120:
     		plt.savefig('elevator_time.png')
     		break
 
